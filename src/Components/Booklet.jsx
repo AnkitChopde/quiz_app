@@ -1,19 +1,23 @@
 import { useState } from "react";
+import QuestionCard from "./QuestionCard";
 
 const Booklet = () => {
   const [flag,setFlag]=useState(true);
+  const [quizData,setQuizData]=useState([]);
+  const [score,setScore]=useState(0)
 
   const handleClick=async()=>{
      try{
       let res=await fetch("https://dbioz2ek0e.execute-api.ap-south-1.amazonaws.com/mockapi/get-quiz")
       let data=await res.json();
-      console.log(data);
+      setQuizData(data)
       setFlag(false)
      }
      catch(err){
       console.log(err)
      }
   }
+  
   return (
     <div data-testid="Booklet" style={{textAlign:"center"}}>
       {/* create a div with className="welcome-div" here*/}
@@ -24,7 +28,8 @@ const Booklet = () => {
       <div className="questions-container">
         {/* Append score and question card components here */}
         <button onClick={()=>setFlag(true)}>End Exam</button>
-        <h3>Score: {0}</h3>
+        <h3>Score: {score}</h3>
+        <QuestionCard {...quizData}/>
       </div>}
     </div>
   );
